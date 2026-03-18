@@ -29,7 +29,10 @@
                 }
 
                 function twofa_dashboard_query_page_content(){
+                    ob_start();
                     require_once(CREAIT_AUTH_SYSTEM_PATH ."views/creait-security-dashboard.php");
+
+                    echo ob_get_clean();
                 }
 
     }

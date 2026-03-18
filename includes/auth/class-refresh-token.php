@@ -24,7 +24,10 @@ class CAS_Refresh_Token {
             'expires_at'  => date(
                 'Y-m-d H:i:s',
                 time() + CAS_Config::$refresh_token_ttl
-            )
+            ),
+           'last_used_at' => current_time('mysql'),
+           'ip_last' => $_SERVER['REMOTE_ADDR'] ?? '',
+           'ua_last' => $_SERVER['HTTP_USER_AGENT'] ?? ''
         ]);
 
         return $token;

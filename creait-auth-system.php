@@ -32,6 +32,8 @@ if (!class_exists('Creait_Auth_System')) {
 
                     require_once CREAIT_AUTH_SYSTEM_PATH . 'vendor/autoload.php';
 
+                    require_once CREAIT_AUTH_SYSTEM_PATH . 'helpers/utils.php';
+
                     /*===== CONFIG =====*/
 
                     require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/class-config.php';
@@ -45,6 +47,13 @@ if (!class_exists('Creait_Auth_System')) {
 
                     require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/auth/class-auth-controller.php';
                     require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/auth/class-refresh-token.php';
+                    
+                    /*==== license ENDPOINTS ====*/
+
+                    require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/license/class-license-handler.php';
+
+                    new CAS_License_Handler();
+
 
                     /*==== API ENDPOINTS ====*/
 
@@ -56,21 +65,41 @@ if (!class_exists('Creait_Auth_System')) {
 
                     new CAS_API_Auth_Refresh();
 
+                    require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/api/endpoints/class-auth-mfa.php';
+
+                    new CAS_API_Auth_MFA();
+
+
+                    require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/2fa-myaccount.php';
+
+                    new CAS_2FA_DASHBOARD();
+
+
+                    require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/auth/class-qr-generator.php';
+
+                    new CAS_QR_Generator();
+
+                    require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/auth/class-mfa-handler.php';
+
+                    new CAS_MFA_Handler();
+
+                    require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/api/endpoints/class-license-me.php';
+
+                    new CAS_API_License_Me();
+
+                    //  require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/api/class-jwt-test.php';
+                        //
+                        //   new CAS_REST_TEST_Routes();
+
+
                     /* ==== ROUTES ====*/
 
                     require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/api/routes/class-rest-routes.php';
 
                     new CAS_REST_Routes();
 
-                    require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/2fa-myaccount.php';
-
-                    new CAS_2FA_DASHBOARD();
-
-                    require_once CREAIT_AUTH_SYSTEM_PATH . 'includes/api/class-jwt-test.php';
-
-                    new CAS_REST_TEST_Routes();
-
                 }
+
 
         public function define_constants() {
 

@@ -32,6 +32,26 @@ class CAS_REST_Routes {
             ]
         );
 
+        register_rest_route(
+            'creait/v1',
+            '/auth/mfa',
+            [
+                'methods'  => 'POST',
+                'callback' => ['CAS_API_Auth_MFA','handle'],
+                'permission_callback' => '__return_true'
+            ]
+        );
+
+        register_rest_route(
+            'creait/v1',
+            '/license/me',
+            [
+                'methods'  => 'GET',
+                'callback' => ['CAS_API_License_Me', 'handle'],
+                'permission_callback' => '__return_true'
+            ]
+        );
+
     }
 
 }
