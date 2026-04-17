@@ -46,6 +46,14 @@ class CAS_API_Auth_MFA {
             );
         }
 
+        if ($row->device_id !== $device_id) {
+            return new WP_Error(
+                'device_mismatch',
+                'Device mismatch detected',
+                ['status' => 401]
+            );
+        }
+
       if (!empty($row->used_at)) {
             return new WP_Error(
                 'invalid_token',

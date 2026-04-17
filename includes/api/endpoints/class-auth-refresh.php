@@ -31,6 +31,15 @@ class CAS_API_Auth_Refresh {
             );
         }
 
+        
+        if ($row->device_id !== $device_id) {
+            return new WP_Error(
+                'device_mismatch',
+                'Device mismatch detected',
+                ['status' => 401]
+            );
+        }
+
         if ($row->revoked_at) {
             return new WP_Error(
                 'revoked_token',

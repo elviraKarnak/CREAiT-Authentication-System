@@ -10,27 +10,22 @@ class CAS_Auth_Controller {
 
         global $wpdb;
 
-        $email       = sanitize_email($request['email']);
+        $login       = sanitize_text_field($request['login']);
         $password    = $request['password'];
         $device_id   = sanitize_text_field($request['device_id']);
         $device_name = sanitize_text_field($request['device_name']);
 
-        if (empty($email) || empty($password)) {
+        if (empty($login) || empty($password)) {
             return new WP_REST_Response([
                 'error' => 'Missing credentials'
             ], 400);
         }
 
         $ip = $_SERVER['REMOTE_ADDR'] ?? '';
-        $rate_key = 'cas_login_attempts_' . md5(strtolower($email) . '|' . $ip);
+        $rate_key = 'cas_login_attempts_' . md5(strtolower($login) . '|' . $ip);
         $attempt_data = get_transient($rate_key);
 
-        if (!is_array($attempt_data)) {
-            $attempt_data = [
-                'count' => 0,
-                'locked_until' => 0,
-            ];
-        }
+       
 
         if (!empty($attempt_data['locked_until']) && time() < (int) $attempt_data['locked_until']) {
             return new WP_REST_Response([
@@ -38,7 +33,16 @@ class CAS_Auth_Controller {
             ], 429);
         }
 
-        $user = get_user_by('email', $email);
+        
+        if (is_email($login)) {
+            $user = get_user_by('email', $login);
+        } else {
+            $user = get_user_by('login', $login);
+        }
+
+
+
+       // $user = get_user_by('email', $email);
 
         if (!$user || !wp_check_password($password, $user->user_pass, $user->ID)) {
 
